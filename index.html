@@ -1,0 +1,725 @@
+```html
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Designer — Showcase Creativo</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/space-grotesk@latest/latin-400-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/space-grotesk@latest/latin-700-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-400-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-500-normal.css">
+<style>
+  :root {
+    --bg: #fafaf7;
+    --bg-alt: #ffffff;
+    --text: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --accent: #ff5722;
+    --accent-2: #7c3aed;
+    --border: #e5e5e0;
+    --shadow: 0 10px 40px rgba(0,0,0,0.08);
+    --radius: 18px;
+  }
+  [data-theme="dark"] {
+    --bg: #0f0f12;
+    --bg-alt: #17171c;
+    --text: #f5f5f0;
+    --text-muted: #9a9a9a;
+    --accent: #ff7a4d;
+    --accent-2: #a78bfa;
+    --border: #26262d;
+    --shadow: 0 10px 40px rgba(0,0,0,0.4);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background 0.4s ease, color 0.4s ease;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.02em; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 5%;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.3rem; display: flex; align-items: center; gap: 8px; }
+  .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { color: var(--text); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+  .theme-toggle {
+    background: var(--bg-alt); border: 1px solid var(--border);
+    width: 42px; height: 42px; border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; transition: all 0.3s;
+  }
+  .theme-toggle:hover { transform: rotate(20deg) scale(1.08); border-color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 120px 5% 60px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; width: 600px; height: 600px;
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 25%, transparent), transparent 70%);
+    top: -200px; right: -200px; border-radius: 50%;
+    animation: float 8s ease-in-out infinite;
+  }
+  .hero::after {
+    content: ''; position: absolute; width: 500px; height: 500px;
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent-2) 25%, transparent), transparent 70%);
+    bottom: -200px; left: -200px; border-radius: 50%;
+    animation: float 10s ease-in-out infinite reverse;
+  }
+  @keyframes float { 0%,100% { transform: translate(0,0); } 50% { transform: translate(30px, -30px); } }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 18px; border-radius: 999px;
+    background: var(--bg-alt); border: 1px solid var(--border);
+    font-size: 0.85rem; font-weight: 500; color: var(--text-muted);
+    margin-bottom: 28px; position: relative; z-index: 2;
+    animation: fadeUp 0.8s ease both;
+  }
+  .badge::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.3); } }
+  .hero h1 {
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    line-height: 1.05; margin-bottom: 24px;
+    position: relative; z-index: 2;
+    animation: fadeUp 1s ease 0.1s both;
+  }
+  .hero h1 .gradient {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .tagline {
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
+    color: var(--text-muted); max-width: 620px; margin-bottom: 40px;
+    position: relative; z-index: 2;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+  .price-highlight {
+    display: inline-flex; align-items: center; gap: 16px;
+    padding: 18px 32px; border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: white; font-weight: 700;
+    box-shadow: 0 20px 60px color-mix(in srgb, var(--accent) 40%, transparent);
+    position: relative; z-index: 2;
+    animation: fadeUp 1s ease 0.3s both, pricePop 0.8s ease 1.2s both;
+  }
+  @keyframes pricePop {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.08); box-shadow: 0 25px 70px color-mix(in srgb, var(--accent) 60%, transparent); }
+    60% { transform: scale(0.98); }
+  }
+  .price-highlight .price-amount { font-size: 2rem; font-family: 'Space Grotesk', sans-serif; }
+  .price-highlight .price-label { font-size: 0.85rem; opacity: 0.9; text-align: left; }
+  .price-highlight .price-label strong { display: block; font-size: 1rem; }
+
+  .hero-cta { display: flex; gap: 14px; margin-top: 36px; position: relative; z-index: 2; animation: fadeUp 1s ease 0.4s both; flex-wrap: wrap; justify-content: center; }
+  .btn {
+    padding: 14px 28px; border-radius: 999px; font-weight: 600;
+    text-decoration: none; font-size: 0.95rem; cursor: pointer; border: none;
+    transition: all 0.3s; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary { background: var(--text); color: var(--bg); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* SECTIONS */
+  section { padding: 100px 5%; position: relative; }
+  .section-head { text-align: center; margin-bottom: 60px; }
+  .section-head .eyebrow {
+    color: var(--accent); font-weight: 600; font-size: 0.85rem;
+    text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 12px;
+  }
+  .section-head h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 14px; }
+  .section-head p { color: var(--text-muted); max-width: 580px; margin: 0 auto; }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+    max-width: 1100px; margin: 0 auto; align-items: center;
+  }
+  .about-visual {
+    aspect-ratio: 1; border-radius: var(--radius);
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif; font-size: 8rem; color: white;
+    font-weight: 700;
+  }
+  .about-visual::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), transparent 60%);
+  }
+  .about-text h3 { font-size: 2rem; margin-bottom: 18px; }
+  .about-text p { color: var(--text-muted); margin-bottom: 16px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+  .stat { text-align: center; padding: 20px; background: var(--bg-alt); border-radius: var(--radius); border: 1px solid var(--border); }
+  .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; color: var(--accent); }
+  .stat-label { font-size: 0.85rem; color: var(--text-muted); }
+
+  /* GALLERY */
+  .gallery {
+    max-width: 1300px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 180px; gap: 16px;
+  }
+  .gallery-item {
+    position: relative; border-radius: var(--radius); overflow: hidden;
+    cursor: pointer; transition: transform 0.4s ease;
+    animation: fadeIn 0.8s ease both;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+  .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+  .gallery-item:nth-child(2) { grid-column: span 1; grid-row: span 1; }
+  .gallery-item:nth-child(3) { grid-column: span 1; grid-row: span 2; }
+  .gallery-item:nth-child(4) { grid-column: span 1; grid-row: span 1; }
+  .gallery-item:nth-child(5) { grid-column: span 2; grid-row: span 1; }
+  .gallery-item:nth-child(6) { grid-column: span 1; grid-row: span 1; }
+  .gallery-item:nth-child(7) { grid-column: span 1; grid-row: span 2; }
+  .gallery-item:nth-child(8) { grid-column: span 2; grid-row: span 1; }
+  .gallery-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s ease, filter 0.4s ease;
+  }
+  .gallery-item:hover img { transform: scale(1.08); filter: brightness(0.7); }
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 60%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 20px; color: white;
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-overlay h4 { font-size: 1.2rem; margin-bottom: 4px; }
+  .gallery-overlay span { font-size: 0.85rem; opacity: 0.8; }
+  .gallery-item::after {
+    content: '⤢'; position: absolute; top: 16px; right: 16px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.9); color: #000;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; opacity: 0; transform: scale(0.5);
+    transition: all 0.3s;
+  }
+  .gallery-item:hover::after { opacity: 1; transform: scale(1); }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+    display: none; align-items: center; justify-content: center;
+    z-index: 1000; padding: 40px; backdrop-filter: blur(10px);
+  }
+  .lightbox.active { display: flex; animation: fadeIn 0.3s ease; }
+  .lightbox img { max-width: 90%; max-height: 85vh; border-radius: var(--radius); box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
+  .lightbox-close {
+    position: absolute; top: 24px; right: 24px;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: white; color: black; border: none; cursor: pointer;
+    font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
+  }
+  .lightbox-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3);
+    cursor: pointer; font-size: 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .lightbox-nav:hover { background: rgba(255,255,255,0.25); }
+  .lightbox-prev { left: 24px; }
+  .lightbox-next { right: 24px; }
+  .lightbox-caption {
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+    color: white; text-align: center;
+  }
+  .lightbox-caption h4 { font-size: 1.3rem; margin-bottom: 4px; }
+  .lightbox-caption span { opacity: 0.7; font-size: 0.9rem; }
+
+  /* FEATURES */
+  .features-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .feature {
+    padding: 32px; border-radius: var(--radius);
+    background: var(--bg-alt); border: 1px solid var(--border);
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .feature:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: var(--accent); }
+  .feature-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; color: white; margin-bottom: 20px;
+  }
+  .feature h3 { font-size: 1.2rem; margin-bottom: 10px; }
+  .feature p { color: var(--text-muted); font-size: 0.95rem; }
+
+  /* TESTIMONIALS */
+  .testimonials {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .testimonial {
+    padding: 32px; border-radius: var(--radius);
+    background: var(--bg-alt); border: 1px solid var(--border);
+    position: relative;
+  }
+  .testimonial::before {
+    content: '"'; position: absolute; top: 10px; right: 24px;
+    font-size: 5rem; color: var(--accent); opacity: 0.2;
+    font-family: Georgia, serif; line-height: 1;
+  }
+  .testimonial p { color: var(--text); margin-bottom: 20px; font-style: italic; }
+  .testimonial-author { display: flex; align-items: center; gap: 12px; }
+  .avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 700;
+  }
+  .author-info strong { display: block; font-size: 0.95rem; }
+  .author-info span { color: var(--text-muted); font-size: 0.85rem; }
+
+  /* BLOG */
+  .blog-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+  .blog-card {
+    border-radius: var(--radius); overflow: hidden;
+    background: var(--bg-alt); border: 1px solid var(--border);
+    transition: all 0.3s; cursor: pointer;
+  }
+  .blog-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+  .blog-img {
+    height: 200px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; color: white;
+  }
+  .blog-img::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.2), transparent 60%);
+  }
+  .blog-content { padding: 24px; }
+  .blog-meta { display: flex; gap: 12px; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; }
+  .blog-tag { color: var(--accent); font-weight: 600; }
+  .blog-content h3 { font-size: 1.2rem; margin-bottom: 10px; line-height: 1.3; }
+  .blog-content p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px; }
+  .blog-link { color: var(--accent); font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+  .blog-link:hover { text-decoration: underline; }
+
+  /* CONTACT */
+  .contact-wrap {
+    max-width: 680px; margin: 0 auto;
+    padding: 48px; border-radius: var(--radius);
+    background: var(--bg-alt); border: 1px solid var(--border);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 6px; color: var(--text); }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: 12px 16px;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 10px; color: var(--text);
+    font-family: inherit; font-size: 0.95rem;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    outline: none; border-color: var(--accent);
+  }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-submit {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: white; border: none; border-radius: 10px;
+    font-weight: 600; font-size: 1rem; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 30px color-mix(in srgb, var(--accent) 40%, transparent); }
+  .form-success {
+    display: none; padding: 14px; border-radius: 10px;
+    background: color-mix(in srgb, #10b981 15%, transparent);
+    color: #10b981; border: 1px solid #10b981;
+    margin-top: 16px; text-align: center; font-weight: 500;
+  }
+  .form-success.show { display: block; animation: fadeUp 0.4s ease; }
+
+  /* FOOTER */
+  footer {
+    padding: 50px 5% 30px; border-top: 1px solid var(--border);
+    text-align: center; color: var(--text-muted); font-size: 0.9rem;
+  }
+  footer .logo { justify-content: center; margin-bottom: 14px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
+    .gallery-item:nth-child(n) { grid-column: span 1; grid-row: span 1; }
+    .gallery-item:nth-child(1), .gallery-item:nth-child(5), .gallery-item:nth-child(8) { grid-column: span 2; }
+    .form-row { grid-template-columns: 1fr; }
+    .nav-links { gap: 14px; }
+    .nav-links a:not(.theme-toggle) { display: none; }
+    .contact-wrap { padding: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><span class="logo-dot"></span>Portfolio Designer</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#gallery">Lavori</a>
+    <a href="#blog">Blog</a>
+    <a href="#contact">Contatti</a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="badge">Categoria: Portfolio · Disponibile ora</div>
+  <h1>Portfolio <span class="gradient">Designer</span></h1>
+  <p class="tagline">Showcase lavori, about, blog integration — tutto ciò che serve per presentare la tua creatività al mondo.</p>
+  <div class="price-highlight">
+    <div class="price-label"><strong>Portfolio Pro</strong>One-time purchase</div>
+    <div class="price-amount">59,99€</div>
+  </div>
+  <div class="hero-cta">
+    <a href="#gallery" class="btn btn-primary">Esplora i lavori →</a>
+    <a href="#contact" class="btn btn-secondary">Contattami</a>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-head">
+    <div class="eyebrow">About</div>
+    <h2>Portfolio professionale per designer e creativi</h2>
+    <p>Galleria animata, lightbox, testimonial — ogni dettaglio pensato per valorizzare il tuo lavoro.</p>
+  </div>
+  <div class="about-grid">
+    <div class="about-visual">PD</div>
+    <div class="about-text">
+      <h3>Design con passione, codice con precisione.</h3>
+      <p>Creo esperienze digitali che combinano estetica e funzionalità. Ogni progetto è un viaggio tra creatività e tecnica, con l'obiettivo di raccontare storie visive uniche.</p>
+      <p>Questo portfolio nasce dall'esigenza di avere uno spazio personale, elegante e performante, costruito con HTML5, CSS3 e JavaScript Vanilla — zero dipendenze, massima libertà.</p>
+      <div class="stats">
+        <div class="stat"><div class="stat-num">120+</div><div class="stat-label">Progetti</div></div>
+        <div class="stat"><div class="stat-num">8</div><div class="stat-label">Anni</div></div>
+        <div class="stat"><div class="stat-num">45</div><div class="stat-label">Clienti</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="section-head">
+    <div class="eyebrow">Galleria Animata</div>
+    <h2>Lavori selezionati</h2>
+    <p>Clicca su un progetto per aprirlo nel lightbox.</p>
+  </div>
+  <div class="gallery" id="galleryGrid"></div>
+</section>
+
+<section>
+  <div class="section-head">
+    <div class="eyebrow">Features</div>
+    <h2>Tutto ciò che include</h2>
+    <p>Un set completo di strumenti per presentare il tuo lavoro al meglio.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature">
+      <div class="feature-icon">✨</div>
+      <h3>Galleria Animata</h3>
+      <p>Layout asimmetrico con transizioni fluide, hover effects e lightbox integrato.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🌙</div>
+      <h3>Dark Mode</h3>
+      <p>Switch con pulsante per passare istantaneamente tra tema chiaro e scuro.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">✉️</div>
+      <h3>Contact Form</h3>
+      <p>Form di contatto completo con validazione e feedback visivo.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📝</div>
+      <h3>Blog Ready</h3>
+      <p>Sezione blog pre-strutturata, pronta per i tuoi articoli e aggiornamenti.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">⚡</div>
+      <h3>Vanilla JS</h3>
+      <p>Nessuna dipendenza. HTML5, CSS3 e JavaScript puri per performance massime.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📱</div>
+      <h3>Responsive</h3>
+      <p>Ottimizzato per desktop, tablet e mobile con layout adattivi.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-head">
+    <div class="eyebrow">Testimonial</div>
+    <h2>Cosa dicono i clienti</h2>
+  </div>
+  <div class="testimonials">
+    <div class="testimonial">
+      <p>Un portfolio elegante che ha trasformato il modo in cui presento i miei progetti. I clienti restano colpiti dalla cura dei dettagli.</p>
+      <div class="testimonial-author">
+        <div class="avatar">MR</div>
+        <div class="author-info"><strong>Marco Rossi</strong><span>Art Director</span></div>
+      </div>
+    </div>
+    <div class="testimonial">
+      <p>La galleria animata è spettacolare. Il dark mode è un tocco di classe che fa la differenza durante le presentazioni serali.</p>
+      <div class="testimonial-author">
+        <div class="avatar">SB</div>
+        <div class="author-info"><strong>Sara Bianchi</strong><span>UX Designer</span></div>
+      </div>
+    </div>
+    <div class="testimonial">
+      <p>Finalmente un portfolio senza framework pesanti. Veloce, pulito e facilissimo da personalizzare. Consigliatissimo.</p>
+      <div class="testimonial-author">
+        <div class="avatar">LV</div>
+        <div class="author-info"><strong>Luca Verdi</strong><span>Freelance Designer</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="blog">
+  <div class="section-head">
+    <div class="eyebrow">Blog</div>
+    <h2>Dal diario di un designer</h2>
+    <p>Riflessioni, tutorial e dietro le quinte dei miei progetti.</p>
+  </div>
+  <div class="blog-grid">
+    <article class="blog-card">
+      <div class="blog-img">🎨</div>
+      <div class="blog-content">
+        <div class="blog-meta"><span class="blog-tag">Design</span><span>10 Ott 2026</span></div>
+        <h3>Il potere del white space nel design moderno</h3>
+        <p>Come il vuoto diventa protagonista e trasforma un layout ordinario in un'esperienza memorabile.</p>
+        <a href="#" class="blog-link">Leggi l'articolo →</a>
+      </div>
+    </article>
+    <article class="blog-card">
+      <div class="blog-img" style="background: linear-gradient(135deg, #7c3aed, #ec4899);">💡</div>
+      <div class="blog-content">
+        <div class="blog-meta"><span class="blog-tag">Tutorial</span><span>5 Ott 2026</span></div>
+        <h3>Creare animazioni CSS fluide senza librerie</h3>
+        <p>Una guida pratica per dare vita alle tue interfacce usando solo transizioni e keyframes.</p>
+        <a href="#" class="blog-link">Leggi l'articolo →</a>
+      </div>
+    </article>
+    <article class="blog-card">
+      <div class="blog-img" style="background: linear-gradient(135deg, #10b981, #3b82f6);">🚀</div>
+      <div class="blog-content">
+        <div class="blog-meta"><span class="blog-tag">Workflow</span><span>28 Set 2026</span></div>
+        <h3>Dal concept al deploy: il mio processo creativo</h3>
+        <p>Condivido il metodo che uso per portare un'idea dalla prima sketch alla versione finale online.</p>
+        <a href="#" class="blog-link">Leggi l'articolo →</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-head">
+    <div class="eyebrow">Contatti</div>
+    <h2>Parliamo del tuo progetto</h2>
+    <p>Compila il form e ti risponderò entro 24 ore.</p>
+  </div>
+  <div class="contact-wrap">
+    <form id="contactForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Nome</label>
+          <input type="text" id="name" required placeholder="Il tuo nome">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" required placeholder="nome@esempio.it">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="subject">Oggetto</label>
+        <select id="subject">
+          <option>Nuovo progetto</option>
+          <option>Collaborazione</option>
+          <option>Consulenza</option>
+          <option>Altro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Messaggio</label>
+        <textarea id="message" required placeholder="Raccontami della tua idea..."></textarea>
+      </div>
+      <button type="submit" class="form-submit">Invia messaggio</button>
+      <div class="form-success" id="formSuccess">✓ Messaggio inviato con successo! Ti risponderò presto.</div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="logo"><span class="logo-dot"></span>Portfolio Designer</div>
+  <p>© 2026 Portfolio Designer · Realizzato con HTML5, CSS3 e JavaScript Vanilla</p>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">✕</button>
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</button>
+  <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-nav lightbox-next" id="lightboxNext">›</button>
+  <div class="lightbox-caption">
+    <h4 id="lightboxTitle"></h4>
+    <span id="lightboxCat"></span>
+  </div>
+</div>
+
+<script>
+  // Gallery data
+  const galleryItems = [
+    { title: 'Aurora Brand', cat: 'Branding', prompt: 'Abstract elegant brand identity mockup with aurora borealis gradient colors purple pink blue, minimalist luxury design, soft lighting, professional photography' },
+    { title: 'Neon Dreams', cat: 'Illustration', prompt: 'Vibrant neon illustration cyberpunk style cityscape at night with pink and cyan lights, digital art, highly detailed' },
+    { title: 'Organic Forms', cat: '3D Art', prompt: 'Abstract organic 3D shapes floating in space, pastel colors, soft shadows, modern minimalist design, studio lighting' },
+    { title: 'Type Study', cat: 'Typography', prompt: 'Experimental typography poster with bold letters overlapping, black and white with red accent, swiss design style' },
+    { title: 'Coastal Vibes', cat: 'Photography', prompt: 'Dreamy coastal landscape photography at golden hour, warm tones, cinematic composition, soft waves' },
+    { title: 'Geometric Flow', cat: 'Pattern', prompt: 'Geometric abstract pattern with flowing curves, vibrant gradient colors orange to purple, modern design' },
+    { title: 'Minimal Space', cat: 'Interior', prompt: 'Minimalist interior design photography, white walls wooden furniture natural light, scandinavian style, clean aesthetic' },
+    { title: 'Digital Bloom', cat: 'Concept Art', prompt: 'Surreal digital art of flowers blooming from geometric shapes, dreamlike atmosphere, pastel colors, magical' }
+  ];
+
+  const grid = document.getElementById('galleryGrid');
+  galleryItems.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'gallery-item';
+    div.style.animationDelay = (i * 0.1) + 's';
+    div.innerHTML = `
+      <img src="${item.prompt}" alt="${item.title}" loading="lazy">
+      <div class="gallery-overlay">
+        <h4>${item.title}</h4>
+        <span>${item.cat}</span>
+      </div>
+    `;
+    div.addEventListener('click', () => openLightbox(i));
+    grid.appendChild(div);
+  });
+
+  // Generate images via tool (we'll replace src after)
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxTitle = document.getElementById('lightboxTitle');
+  const lightboxCat = document.getElementById('lightboxCat');
+  let currentIndex = 0;
+
+  function openLightbox(i) {
+    currentIndex = i;
+    updateLightbox();
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function updateLightbox() {
+    const item = galleryItems[currentIndex];
+    const img = grid.children[currentIndex].querySelector('img');
+    lightboxImg.src = img.src;
+    lightboxTitle.textContent = item.title;
+    lightboxCat.textContent = item.cat;
+  }
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  document.getElementById('lightboxPrev').addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+    updateLightbox();
+  });
+  document.getElementById('lightboxNext').addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % galleryItems.length;
+    updateLightbox();
+  });
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') document.getElementById('lightboxPrev').click();
+    if (e.key === 'ArrowRight') document.getElementById('lightboxNext').click();
+  });
+
+  // Theme toggle
+  const themeToggle = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  if (savedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeToggle.textContent = '☀️';
+  }
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      document.documentElement.removeAttribute('data-theme');
+      themeToggle.textContent = '🌙';
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      themeToggle.textContent = '☀️';
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+
+  // Contact form
+  document.getElementById('contactForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const success = document.getElementById('formSuccess');
+    success.classList.add('show');
+    e.target.reset();
+    setTimeout(() => success.classList.remove('show'), 4000);
+  });
+
+  // Intersection observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.feature, .testimonial, .blog-card, .stat').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
+```
